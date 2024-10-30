@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skip Ad Feature</title>
+   <style>
+    #video-content video{
+
+      margin-left: 35%;
+      margin-top: 10%;
+    }
+   </style>
+</head>
+
+<body>
+  <div id="ad-container"
+    style="display: block; width: 100%; padding: 20px; background-color: rgba(0, 0, 255, 0.295); text-align: center;">
+    
+    <video height="250px" controls autoplay muted>
+      <source src="./jaganskipad.mp4">
+    </video>
+    <p id="ad-timer">Ad ends in <span id="time-left">20</span> seconds</p>
+    <button id="skip-button" style="display: none;">Skip Ad</button>
+  </div>
+  <div id="video-content" style="display: none;">
+    <video height="350px" controls autoplay muted>
+      <source src="./jagan.mp4">
+    </video>
+  </div>
+
+  <script>
+    let adDuration = 40; 
+    let skipTime = 15; 
+
+
+    const adContainer = document.getElementById("ad-container");
+    const videoContent = document.getElementById("video-content");
+    const timeLeftDisplay = document.getElementById("time-left");
+    const skipButton = document.getElementById("skip-button");
+
+  
+    let adTimer = setInterval(() => {
+      adDuration--;
+      timeLeftDisplay.textContent = adDuration;
+
+    
+      if (adDuration <= 0) {
+        clearInterval(adTimer);
+        endAd();
+      }
+    }, 1000);
+
+
+    let skipButtonTimer = setTimeout(() => {
+      skipButton.style.display = "inline-block";
+    }, skipTime * 1000);
+
+    
+    skipButton.addEventListener("click", () => {
+      clearInterval(adTimer);
+      clearTimeout(skipButtonTimer);
+      endAd();
+    });
+
+    function endAd() {
+      adContainer.remove();
+      videoContent.style.display = "block";
+      console.log("Ad has been skipped or finished.");
+    }
+  </script>
+</body>
+
+</html>
